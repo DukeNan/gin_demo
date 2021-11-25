@@ -27,3 +27,8 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+
+JWT:
+  Secret: shaun
+  Issuer: gin-demo
+  Expire: 7200

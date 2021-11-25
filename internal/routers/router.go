@@ -9,7 +9,7 @@ import (
 	_ "main.go/docs"
 	"main.go/global"
 	"main.go/internal/middleware"
-	api "main.go/internal/routers/api"
+	"main.go/internal/routers/api"
 	v1 "main.go/internal/routers/api/v1"
 )
 
@@ -25,6 +25,8 @@ func NewRouter() *gin.Engine {
 	upload := api.NewUpload()
 	r.POST("/upload/file", upload.UploadFile)
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
+
+	r.POST("/auth", api.GetAuth)
 
 	apiv1 := r.Group("/api/v1")
 	{
