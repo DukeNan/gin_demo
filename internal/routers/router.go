@@ -6,7 +6,8 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	_ "main.go/docs"
 	"main.go/internal/middleware"
-	v1 "main.go/internal/routers/v1"
+	api "main.go/internal/routers/api"
+	v1 "main.go/internal/routers/api/v1"
 )
 
 func NewRouter() *gin.Engine {
@@ -18,6 +19,8 @@ func NewRouter() *gin.Engine {
 
 	article := v1.NewArticle()
 	tag := v1.NewTag()
+	upload := api.NewUpload()
+	r.POST("/upload/file", upload.UploadFile)
 
 	apiv1 := r.Group("/api/v1")
 	{
