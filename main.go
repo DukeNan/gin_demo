@@ -12,6 +12,7 @@ import (
 	"main.go/internal/routers"
 	"main.go/pkg/logger"
 	"main.go/pkg/setting"
+	"main.go/pkg/tracer"
 )
 
 func init() {
@@ -26,6 +27,10 @@ func init() {
 	err = setupLogger()
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
+	}
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("init.setupTracer err: %v", err)
 	}
 }
 
@@ -74,6 +79,18 @@ func setupLogger() error {
 		MaxAge:    10,
 		LocalTime: true,
 	}, "", log.LstdFlags).WithCaller(2)
+	return nil
+}
+
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer(
+		"gin-demo",
+		"192.168.124.16:6831",
+	)
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
 	return nil
 }
 
